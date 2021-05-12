@@ -11,6 +11,7 @@ def create_reliability_plot():
     plt.plot(x, gen_y(reliability(1,5),x),label='1 out of 5',marker="x") 
     plt.plot(x, gen_y(reliability(2,3),x),label='2 out of 3',marker="s") 
     plt.plot(x, gen_y(reliability(3,5),x),label='3 out of 5',marker="*")
+    plt.yticks(np.linspace(0,1,11))
     plt.ylabel("Reliability")
     plt.xlabel("Time (h)")
     plt.legend()
