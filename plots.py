@@ -22,7 +22,7 @@ def create_availability_plot():
     plt.figure(2)
     plt.plot(x, gen_y(log_availability(lambda n:1),x),label='1 out of n',marker="o")
     plt.plot(x, gen_y(log_availability(lambda n:math.floor(n/2)+1),x),label='n/2+1 out of n',marker="v")
-    plt.plot(x, gen_y(log_availability(find_linear()),x),label='n-log(n) out of n',marker="x")
+    plt.plot(x, gen_y(log_availability(find_linear()),x),label='2 out of 3 level',marker="x") #Approximately n-log(n)
     #plt.plot(x, gen_y(log_availability(lambda n:n),x),label='n out of n',marker="s")
     #for (m,n) in [(1,1),(1,3),(1,5),(2,3),(3,5)]:
     #    plt.scatter(n,log_availability(lambda _:m)(n))

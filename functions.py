@@ -7,7 +7,7 @@ import operator as op
 from functools import reduce
 
 
-MINN=3
+MINN=2
 MAXN=100
 STEP=5
 
@@ -44,8 +44,8 @@ def log_availability(g,lam=0.001,mu=1.0):
         return -bad_sum
     return f
 
-def find_linear(use_log=False):
-    goal=(log_availability if use_log else availability)(lambda x:1)(4)
+def find_linear(use_log=False): #Find the f(n) for which availability(f(n),n) is constant for all n
+    goal=(log_availability if use_log else availability)(lambda x:2)(3)
     a=[0]*(MAXN+STEP+1)
     for i in range(MINN,MAXN+STEP+1):
         a[i]=math.floor(i/2)+1
@@ -55,9 +55,10 @@ def find_linear(use_log=False):
             if(x<v):
                 v=x
                 a[i]=j
+        #print(f"{a[i]} out of {i}")
     def g(n):
         return a[n]
     return g
 
-
-        
+if __name__=="__main__":
+    find_linear()
