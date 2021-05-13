@@ -12,11 +12,12 @@ def create_reliability_plot():
     plt.plot(x, gen_y(reliability(2,3),x),label='2 out of 3',marker="s") 
     plt.plot(x, gen_y(reliability(3,5),x),label='3 out of 5',marker="*")
     plt.yticks(np.linspace(0,1,11))
+    plt.grid(color='lightgrey')
     plt.ylabel("Reliability")
-    plt.xlabel("Time (h)")
+    plt.xlabel("Time [h]")
     plt.legend()
     plt.savefig('Reliability.png')
-    #plt.show() 
+    #plt.show()
 
 def create_availability_plot():
     x=np.arange(MINN,MAXN+STEP,STEP)
@@ -29,10 +30,11 @@ def create_availability_plot():
     #    plt.scatter(n,log_availability(lambda _:m)(n))
     plt.xlim([np.min(x)-1,np.max(x)+1])
     plt.ylim(bottom=0)
-    plt.ylabel("Nines")
+    plt.grid(color='lightgrey')
+    plt.ylabel("Steady state availability [nines]")
     plt.xlabel("Number of nodes")
     plt.legend()
-    plt.savefig('Availability.png')
+    plt.savefig('Steady state availability.png')
     plt.show() 
 
 if __name__=="__main__":
