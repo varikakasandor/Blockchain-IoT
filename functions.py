@@ -49,13 +49,13 @@ def log_availability(g,lam=0.001,mu=1.0):
         return -bad_sum
     return f
 
-def find_linear(use_log=False, start_m=2,start_n=3): #Find the f(n) for which availability(f(n),n) is constant for all n
-    goal=(log_availability if use_log else availability)(gen_const_m(start_m))(start_n)
+def find_linear(use_log=False, benchmark_m=2, benchmark_n=3): #Find the f(n) for which availability(f(n),n) is constant for all n
+    goal=(log_availability if use_log else availability)(gen_const_m(benchmark_m))(benchmark_n)
     a=[0]*(MAXN+STEP+1)
     for i in range(MINN,MAXN+STEP+1):
         a[i]=math.floor(i/2)+1
         v=abs((log_availability if use_log else availability)(gen_const_m(math.floor(i/2)+1))(i)-goal)
-        for j in range(math.floor(i/2)+1,i):
+        for j in range(1,i): #could have range(math.floor(i/2)+1,i) instead, but it gives nices start for small node numbers
             x=abs((log_availability if use_log else availability)(gen_const_m(j))(i)-goal)
             if(x<v):
                 v=x
