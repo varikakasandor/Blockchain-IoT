@@ -22,8 +22,8 @@ def create_reliability_plot():
 def create_availability_plot(benchmark_m=2, benchmark_n=3):
     x=np.arange(MINN,MAXN+STEP,STEP)
     plt.figure(2)
-    plt.plot(x, gen_y(log_availability(lambda n:1),x),label='1 out of n',marker="o")
-    plt.plot(x, gen_y(log_availability(lambda n:math.floor(n/2)+1),x),label='n/2+1 out of n',marker="v")
+    plt.plot(x, gen_y(log_availability_iterative(lambda n:1),x),label='1 out of n',marker="o")
+    plt.plot(x, gen_y(log_availability_iterative(lambda n:math.floor(n/2)+1),x),label='n/2+1 out of n',marker="v")
     plt.plot(x, gen_y(log_availability(find_linear(benchmark_m=benchmark_m,benchmark_n=benchmark_n)),x),label=f'{benchmark_m} out of {benchmark_n} level',marker="x") #Approximately n-log(n)
     plt.xlim([np.min(x)-1,np.max(x)+1])
     plt.ylim(bottom=0)
