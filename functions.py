@@ -7,7 +7,7 @@ import operator as op
 from functools import reduce
 
 
-MINN=2
+MINN=3
 MAXN=100
 STEP=5
 
@@ -52,26 +52,41 @@ def availability_iterative(g,lam=0.001,mu=1.0):
     return f
 
 
-def find_linear(use_log=False, benchmark_m=2, benchmark_n=3): #Find the f(n) for which availability(f(n),n) is constant for all n
+def find_linear(use_log=False, start=MINN, finish=MAXN, benchmark_m=2, benchmark_n=3): #Find the f(n) for which availability(f(n),n) is constant for all n
     goal=(log_availability_iterative if use_log else availability_iterative)(gen_const_m(benchmark_m))(benchmark_n)
-    a=[0]*(MAXN+STEP+1)
-    for i in range(MINN,MAXN+STEP+1):
+    a=[0]*(finish+STEP+1)
+    for i in range(start,finish+STEP+1):
         a[i]=math.floor(i/2)+1
-        v=abs((log_availability_iterative if use_log else availability_iterative)(gen_const_m(math.floor(i/2)+1))(i)-goal)
+        v=(log_availability_iterative if use_log else availability_iterative)(gen_const_m(math.floor(i/2)+1))(i)
         for j in range(1,i): #could have range(math.floor(i/2)+1,i) instead, but it gives nices start for small node numbers
-            x=abs((log_availability_iterative if use_log else availability_iterative)(gen_const_m(j))(i)-goal)
-            if(x<v):
-                v=x
+            avail=(log_availability_iterative if use_log else availability_iterative)(gen_const_m(j))(i)
+            if(avail>goal and avail<v):
+                v=avail
                 a[i]=j
-        #print(f"{a[i]} out of {i}")
+        print(f"{a[i]} out of {i}")
 
     def g(n):
         return a[n]
     return g
 
-if __name__=="__main__":
-    find_linear()
+def create_seq():
+    with open("sequence.txt","w") as f:
+        for i in range(2,5):
+            f.write(str(i-1)+" ")
+        for i in range(5,28):
+            f.write(str(i-2)+" ")
+        for i in range(28,96):
+            f.write(str(i-3)+" ")
+        for i in range(96,215):
+            f.write(str(i-4)+" ")
+        for i in range(215,383):
+            f.write(str(i-5)+" ")
+        for i in range(383,500):
+            f.write(str(i-6)+" ")
 
+if __name__=="__main__":
+    #find_linear(start=500,finish=500)
+    create_seq()
 
 
 """ UNUSED """
@@ -91,3 +106,4 @@ def log_availability(g,lam=0.001,mu=1.0): #Doesn't work for large n-s, because b
         suff=1-binom.cdf(n-g(n),n,p)
         return -math.log10(suff)
     return f
+
