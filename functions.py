@@ -10,6 +10,8 @@ from functools import reduce
 MINN=3
 MAXN=100
 STEP=5
+FAILURE_RATE=0.001
+REPAIR_RATE=1.0
 
 def nck(n, k): #Fast C implementation of n choose k
     r = min(k, n-k)
@@ -23,14 +25,14 @@ def gen_const_m(x):
         return x
     return f
 
-def reliability(m,n,rate=0.001):
+def reliability(m,n,rate=FAILURE_RATE):
     def f(t): #Calculates the reliability of an m out of n system after time t
         p=math.exp(-rate*t)
         return 1-binom.cdf(m-1,n,p)
     return f
 
 
-def log_availability_iterative(g,lam=0.001,mu=1.0):
+def log_availability_iterative(g,lam=FAILURE_RATE,mu=REPAIR_RATE):
     r=lam/mu
     p=r/(1+r)
     def f(n): #Calculates the steady-state availability of a g(n) out of n system, returns it in the nines (-log10(1-x)) metric
@@ -41,7 +43,7 @@ def log_availability_iterative(g,lam=0.001,mu=1.0):
         return nines
     return f
 
-def availability_iterative(g,lam=0.001,mu=1.0):
+def availability_iterative(g,lam=FAILURE_RATE,mu=REPAIR_RATE):
     r=lam/mu
     p=r/(1+r)
     def f(n):
@@ -63,7 +65,7 @@ def find_linear(use_log=False, start=MINN, finish=MAXN, benchmark_m=2, benchmark
             if(avail>goal and avail<v):
                 v=avail
                 a[i]=j
-        print(f"{a[i]} out of {i}")
+        #print(f"{a[i]} out of {i}")
 
     def g(n):
         return a[n]
@@ -91,7 +93,7 @@ if __name__=="__main__":
 
 """ UNUSED """
 
-def availability(g,lam=0.001,mu=1.0): #Doesn't work for large n-s, because binom.cdf has limited precision
+def availability(g,lam=FAILURE_RATE,mu=REPAIR_RATE): #Doesn't work for large n-s, because binom.cdf has limited precision
     r=lam/mu
     p=r/(1+r)
     def f(n):
@@ -99,7 +101,7 @@ def availability(g,lam=0.001,mu=1.0): #Doesn't work for large n-s, because binom
     return f
 
 
-def log_availability(g,lam=0.001,mu=1.0): #Doesn't work for large n-s, because binom.cdf has limited precision
+def log_availability(g,lam=FAILURE_RATE,mu=REPAIR_RATE): #Doesn't work for large n-s, because binom.cdf has limited precision
     r=lam/mu
     p=r/(1+r)
     def f(n): #Calculates the steady-state availability of a g(n) out of n system, returns it in the nines (-log10(1-x)) metric
