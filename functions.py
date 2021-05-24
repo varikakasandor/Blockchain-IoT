@@ -12,6 +12,10 @@ MAXN=100
 STEP=5
 FAILURE_RATE=0.001
 REPAIR_RATE=1.0
+MAX_TIME=5000
+TIME_STEP=200
+Y_RELIABILITY_TICKS=11
+X_RELIABILITY_TICKS=5
 
 def nck(n, k): #Fast C implementation of n choose k
     r = min(k, n-k)
